@@ -24,7 +24,7 @@ def amazon():
 def results():
     review_text = request.form['text_input1']
     sentiment = bert_amazon.pretty_classify_one(review_text)
-    return render_template('results.html', review_text=sentiment)
+    return render_template('results.html', bert_sentiment=sentiment)
 
 @app.route('/twitch')
 def twitch():
