@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action='/results' method = 'post'>
+
+  <style>
+    .important-paragraph{
+      color:aquamarine
+    }
+    </style>
+
+  <p class = 'important-paragraph form-inputs'>
+    <label for='sl'>Sepal Length (cm) (4.3 - 7.9): </label>
+    <input type='text' name = 'sepal_length' id='sl'/>
+  </p>
+
+  <p class = 'important-paragraph form-inputs'>
+    <label for='sw'>Sepal Width (cm) (2 - 4.4): </label>
+    <input type='text' name = 'sepal_width' id='sw'/>
+  </p>
+  <p class = 'important-paragraph form-inputs'>
+    <label for='pl'>Petal Length (cm) (1 - 6.9): </label>
+    <input type='text' name = 'petal_length' id='pl'/>
+  </p>
+  <p class = 'important-paragraph form-inputs'>
+    <label for='pw'>Petal Width (cm) (0.1 - 2.5): </label>
+    <input type='text' name = 'petal_width' id='pw'/>
+  </p>
+
+  <p> <input type='submit' value='Submit'/></p>
+</form>
+{% endblock content %}

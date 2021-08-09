@@ -1,6 +1,40 @@
 import json
 import csv
 
+#Import this function
+def clean_json_and_save_csv(streamer_name, date, path_prefix='/content/drive/MyDrive/twitch_chat/'):
+    """Primary cleaning function, takes in json created by lay (github.com/lay295/TwitchDownloader)
+        writes cleaned csvs for the comments and emotes of the stream.
+        
+        Assumes jsons are saved as .../<streamer_name>/<streamer_name><month-day>.json
+        So for streamer Yeatle on August first, the json should be saved as '.../Yeatle/Yeatle8-1.json
+            (date does not need to be a date it can be anything as long as you're consistent)
+
+        The csvs are saved in the same directory.
+    """
+
+    with open(path_prefix + streamer_name +'/'+ streamer_name + date + '.json') as f:
+        stream_json = json.load(f)
+
+    #get the lists of comments and emotes from the json
+    cleaned_comments, cleaned_emotes = clean_comments(stream_json)
+
+    #write the comments and emotes to csv files
+
+    with open(path_prefix + streamer_name +'/'+ streamer_name + date + 'comments.csv', "w", newline="") as f:
+        writer = csv.writer(f)
+        #header
+        writer.writerow(['time', 'comment_text'])
+        #write rows
+        writer.writerows(cleaned_comments)
+
+    with open(path_prefix + streamer_name +'/'+ streamer_name + date + 'emotes.csv', "w", newline="") as f:
+        writer = csv.writer(f)
+        #header
+        writer.writerow(['time', '_id', 'emote_text'])
+        #write rows
+        writer.writerows(cleaned_emotes)
+
 
 def clean_comment(comment):
     #gather relevant info
@@ -60,35 +94,3 @@ def clean_comments(stream_json):
 
     return cleaned_comments, cleaned_emotes
 
-#Import this function
-def clean_json_and_save_csv(streamer_name, date, path_prefix='/content/drive/MyDrive/twitch_chat/'):
-    """Primary cleaning function, takes in json created by lay (github.com/lay295/TwitchDownloader)
-        writes cleaned csvs for the comments and emotes of the stream.
-        
-        Assumes jsons are saved as .../<streamer_name>/<streamer_name><month-day>.json
-        So for streamer Yeatle on August first, the json should be saved as '.../Yeatle/Yeatle8-1.json
-
-        The csvs are saved in the same directory.
-    """
-
-    with open(path_prefix + streamer_name +'/'+ streamer_name + date + '.json') as f:
-        stream_json = json.load(f)
-
-    #get the lists of comments and emotes from the json
-    cleaned_comments, cleaned_emotes = clean_comments(stream_json)
-
-    #write the comments and emotes to csv files
-
-    with open(path_prefix + streamer_name +'/'+ streamer_name + date + 'comments.csv', "w", newline="") as f:
-        writer = csv.writer(f)
-        #header
-        writer.writerow(['time', 'comment_text'])
-        #write rows
-        writer.writerows(cleaned_comments)
-
-    with open(path_prefix + streamer_name +'/'+ streamer_name + date + 'emotes.csv', "w", newline="") as f:
-        writer = csv.writer(f)
-        #header
-        writer.writerow(['time', '_id', 'emote_text'])
-        #write rows
-        writer.writerows(cleaned_emotes)
