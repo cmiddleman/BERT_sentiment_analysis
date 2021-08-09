@@ -4,12 +4,11 @@ import tensorflow_hub as hub
 #import tensorflow_datasets as tfds
 import tensorflow_text as text  # A dependency of the preprocessing model
 #import tensorflow_addons as tfa
-from official.nlp import optimization
+#from official.nlp import optimization
 import numpy as np
 import pickle
 
 tf.get_logger().setLevel('ERROR')
-
 
 tfhub_handle_encoder = 'https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/3'
 tfhub_handle_preprocess = 'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3'
