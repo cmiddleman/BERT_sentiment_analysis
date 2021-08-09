@@ -3,7 +3,7 @@
 <style>
   h1 {
   color: yellow;
-  text-align: center;
+  text-align: left;
   }
   p {
   color:white; 
@@ -13,12 +13,12 @@
   </style>
 
 <h1>
-  Type of iris: {{prediction}}
+  Type of iris: {{review_text}}
 </h2>
 
 <img src="{{ image }}"/>
 
-<form action="{{url_for('predict')}}">
+<form action="{{url_for('amazon')}}">
   <input type="submit" value="Predict again" />
   </form>
 {% endblock content %}
