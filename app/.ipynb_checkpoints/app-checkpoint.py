@@ -7,10 +7,13 @@ from src.bert_sentiment import BertAmazonSentiment
 
 app = Flask(__name__)
 
+pkl_path = 'models/amazon_reviews/'
+bert_amazon = BertAmazonSentiment(pkl_path)
+
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', title='haha')
+    return render_template('home.html')
 
 
 @app.route('/amazon')
@@ -20,7 +23,8 @@ def amazon():
 @app.route('/results', methods=['POST'])
 def results():
     review_text = request.form['text_input1']
-    return render_template('results.html', review_text=review_text)
+    sentiment = bert_amazon.pretty_classify_one(review_text)
+    return render_template('results.html', review_text=sentiment)
 
 @app.route('/twitch')
 def twitch():

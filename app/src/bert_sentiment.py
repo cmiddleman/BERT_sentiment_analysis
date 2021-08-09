@@ -13,6 +13,8 @@ tf.get_logger().setLevel('ERROR')
 tfhub_handle_encoder = 'https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/3'
 tfhub_handle_preprocess = 'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3'
 
+sentiment_dict = {0: 'negative', 1:'positive'}
+
 def build_classifier_model(num_classes=2):
 
     class Classifier(tf.keras.Model):
@@ -68,6 +70,8 @@ class BertAmazonSentiment:
         self.bert_model.layers[-1].set_weights(dense_weights)
 
     def preprocess(self, input_strings):
+        """string go in, preprocessed tokens for BERT come out.
+        """
         tok = self.bert_preprocessor.tokenize(tf.constant(input_strings))
         return self.bert_preprocessor.bert_pack_inputs([tok], tf.constant(128))
 
@@ -78,4 +82,10 @@ class BertAmazonSentiment:
         logits = self.bert_model(text_preprocessed)
         return tf.keras.activations.softmax(logits)
 
-    
+    def pretty_classify_one(self, review_text):
+        """classify one review text and print the result as a user friendly string.
+        """
+        bert_result = self.classify([review_text])[0]
+        idx = np.argmax(bert_result)
+
+        return 'BERT is {0:.1f}% sure your review is {1}.'.format(100*bert_result[idx], sentiment_dict[idx])
