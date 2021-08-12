@@ -1,10 +1,7 @@
 
 import tensorflow as tf
 import tensorflow_hub as hub
-#import tensorflow_datasets as tfds
 import tensorflow_text as text  # A dependency of the preprocessing model
-#import tensorflow_addons as tfa
-#from official.nlp import optimization
 import numpy as np
 import pickle
 
@@ -15,7 +12,7 @@ tfhub_handle_preprocess = 'https://tfhub.dev/tensorflow/bert_en_uncased_preproce
 
 sentiment_dict = {0: 'negative', 1:'positive'}
 
-def build_classifier_model(num_classes=2):
+def build_classifier_model(num_classes):
 
     class Classifier(tf.keras.Model):
         def __init__(self, num_classes):
@@ -52,13 +49,13 @@ def load_weights(pkl_path):
 
 class BertAmazonSentiment:
 
-    def __init__(self, pkl_path):
+    def __init__(self, pkl_path, num_classes=2):
         
         #load the preprocessing unit from tensorflow hub
         self.bert_preprocessor = hub.load(tfhub_handle_preprocess)
 
         #create the bert sentiment classifier
-        self.bert_model = build_classifier_model()
+        self.bert_model = build_classifier_model(num_classes)
 
         #load and set the weights
         bert_weights, dense_weights = load_weights(pkl_path)
