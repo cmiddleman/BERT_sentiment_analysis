@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pickle
 from src.bert_sentiment import BertAmazonSentiment
 
-app = Flask(__name__)
+app = Flask(__name__) 
 
 pkl_path = 'models/amazon_reviews/'
 bert_amazon = BertAmazonSentiment(pkl_path)
@@ -22,7 +22,8 @@ def amazon():
 
 @app.route('/results', methods=['POST'])
 def results():
-    review_text = request.form['text_input1']
+    review_text = str(request.form['comment'])
+    print(review_text)
     sentiment = bert_amazon.pretty_classify_one(review_text)
     return render_template('results.html', bert_sentiment=sentiment)
 
